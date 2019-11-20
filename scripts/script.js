@@ -1,10 +1,11 @@
 const cronJob = require('cron').CronJob;
 
 module.exports = robot => {
+  // ２桁に直す関数
   const formatTwoDigits = num => num < 10 ? `0${num}` : num
 
   const setCronJob = (date, res) => {
-    // todo: dateの処理
+    // dateの処理
     const minute = formatTwoDigits(date.getMinutes() + 2)
     const hour = formatTwoDigits(date.getHours())
     const tomorrowDate = formatTwoDigits(date.getDate())
@@ -12,14 +13,15 @@ module.exports = robot => {
 
     const newCronJob = new cronJob(`00 ${minute} ${hour} ${tomorrowDate} ${month} *`, function() {
       const envelope = {room: "#general"}
-      return robot.send(envelope, `${res.message.text}`);
-    });
+      return robot.send(envelope, `<!channel>${res.message.text}`) //res.message.textで送られたメッセージ取得
+    })
+    
     return newCronJob
   }
 
   robot.hear(/./i, res => {   
     res.send("了解！リマインド設定します( ˘ω˘ )")
-    // res.send(res.message.text)
+
     const date = new Date()
     const newCronJob = setCronJob(date, res)
 
