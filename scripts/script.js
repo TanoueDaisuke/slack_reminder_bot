@@ -1,3 +1,5 @@
+const cronJob = require('cron').CronJob;
+
 module.exports = robot => {
   const formatTwoDigits = num => num < 10 ? `0${num}` : num
 
