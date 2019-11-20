@@ -1,4 +1,4 @@
-const cronJob = import('cron').CronJob
+const cronJob = require('cron').CronJob;
 
 module.exports = robot　=> {
   // 設定方法: https://00m.in/RhXkB
