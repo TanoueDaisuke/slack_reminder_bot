@@ -5,6 +5,6 @@ module.exports = robot => {
     // console.log(robot);
     console.log(res.message.text);
     
-    res.send("/remind #個人開発 `hoge` 10:00 today")
+    res.send(res.message.text)
   })
 }
