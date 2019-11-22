@@ -6,9 +6,9 @@ module.exports = robot => {
 
   const setCronJob = (date, res) => {
     // dateの処理
-    const minute = formatTwoDigits(date.getMinutes())
+    const minute = formatTwoDigits(date.getMinutes() + 10)
     const hour = formatTwoDigits(date.getHours())
-    const tomorrowDate = formatTwoDigits(date.getDate() + 1)
+    const tomorrowDate = formatTwoDigits(date.getDate())
     const month = date.getMonth() // monthは２桁でなくてもいい
 
     const newCronJob = new cronJob(`00 ${minute} ${hour} ${tomorrowDate} ${month} *`, function() {
