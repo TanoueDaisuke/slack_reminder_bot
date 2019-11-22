@@ -21,7 +21,7 @@ module.exports = robot => {
 
   robot.hear(/./i, res => {
     // \が含まれている時は除外
-    if (res.message.text.indexOf('\\') !== -1) {
+    if (res.message.text.indexOf('///') !== -1) {
       res.send("了解！リマインド設定します( ˘ω˘ )")
       
       const date = new Date()
