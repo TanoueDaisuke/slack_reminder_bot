@@ -6,12 +6,13 @@ module.exports = robot => {
 
   const setCronJob = (date, res) => {
     // dateの処理
-    const minute = formatTwoDigits(date.getMinutes() + 10)
-    const hour = formatTwoDigits(date.getHours())
-    const tomorrowDate = formatTwoDigits(date.getDate())
+    // const minute = formatTwoDigits(date.getMinutes() + 10)
+    // const hour = formatTwoDigits(date.getHours())
+    const today = formatTwoDigits(date.getDate())
     const month = date.getMonth() // monthは２桁でなくてもいい
 
-    const newCronJob = new cronJob(`00 ${minute} ${hour} ${tomorrowDate} ${month} *`, function() {
+    // const newCronJob = new cronJob(`00 ${minute} ${hour} ${tomorrowDate} ${month} *`, function() {
+    const newCronJob = new cronJob(`00 50 23 ${today} ${month} *`, function() {
       const envelope = {room: "#general"}
       return robot.send(envelope, `<!channel>\n${res.message.text}`) //res.message.textで送られたメッセージ取得
     })
