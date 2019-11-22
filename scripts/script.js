@@ -19,13 +19,16 @@ module.exports = robot => {
     return newCronJob
   }
 
-  robot.hear(/./i, res => {   
-    res.send("了解！リマインド設定します( ˘ω˘ )")
-
-    const date = new Date()
-    const newCronJob = setCronJob(date, res)
-
-    newCronJob.start()
+  robot.hear(/./i, res => {
+    // \が含まれている時は除外
+    if (res.message.text.indexOf('\\') !== -1) {
+      res.send("了解！リマインド設定します( ˘ω˘ )")
+      
+      const date = new Date()
+      const newCronJob = setCronJob(date, res)
+  
+      newCronJob.start()
+    }
   })
 }
 
