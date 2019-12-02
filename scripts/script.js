@@ -1,24 +1,14 @@
-const cronJob = require('cron').CronJob;
+const remind = require('../lib/remind')
+const { CronJob } = require('cron')
+
 
 module.exports = robot => {
-  // ２桁に直す関数
-  const formatTwoDigits = num => num < 10 ? `0${num}` : num
 
-  const setCronJob = (date, res) => {
-    // dateの処理
-    // const minute = formatTwoDigits(date.getMinutes() + 10)
-    // const hour = formatTwoDigits(date.getHours())
-    const today = formatTwoDigits(date.getDate())
-    const month = date.getMonth() // monthは２桁でなくてもいい
-
-    // const newCronJob = new cronJob(`00 ${minute} ${hour} ${tomorrowDate} ${month} *`, function() {
-    const newCronJob = new cronJob(`00 50 23 ${today} ${month} *`, function() {
-      const envelope = {room: "#general"}
-      return robot.send(envelope, `<!channel>\n${res.message.text}`) //res.message.textで送られたメッセージ取得
-    })
-
-    return newCronJob
-  }
+  //秒: 0-59 分: 0-59 時: 0-23 日: 1-31 月: 0-11 週: 0-6
+  //以下は毎日 10:00
+  new CronJob('00 00 10 * * *', () => {
+    remind.setRemind(robot)
+  }, null, true); 
 
   const yearEndJumboMini= () => {
     const num = Math.random()
@@ -45,11 +35,20 @@ module.exports = robot => {
     // 「///」が含まれている時は除外
     if (res.message.text.indexOf('///') === -1) {
       res.send(yearEndJumboMini())
-      
-      const date = new Date()
-      const newCronJob = setCronJob(date, res)
-  
-      newCronJob.start()
+      // ２桁に直す関数
+      const formatTwoDigits = num => num < 10 ? `0${num}` : num
+
+      // dateの処理
+      const date = new Date()  // 送信時の時刻取得
+
+      const minute = formatTwoDigits(date.getMinutes())
+      const hour = formatTwoDigits(date.getHours())
+      const tomorrowDate = formatTwoDigits(date.getDate() + 1)
+      const month = date.getMonth() // monthは２桁でなくてもいい
+
+      const setDate = `00 ${minute} ${hour} ${tomorrowDate} ${month} *`
+
+      remind.addRemind(res.message.text, setDate)
     }
   })
 }
