@@ -31,6 +31,10 @@ module.exports = robot => {
     }
   }
 
+  robot.hear(/remind list/i, res => {
+    res.send(remind.getRemindList().join('\n'))
+  })
+
   robot.hear(/./i, res => {
     // 「///」が含まれている時は除外
     if (res.message.text.indexOf('///') === -1) {
