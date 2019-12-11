@@ -5,8 +5,8 @@ const { CronJob } = require('cron')
 module.exports = robot => {
 
   //秒: 0-59 分: 0-59 時: 0-23 日: 1-31 月: 0-11 週: 0-6
-  //以下は毎日 10:00
-  new CronJob('00 00 10 * * *', () => {
+  //以下は毎日 23:40
+  new CronJob('00 40 23 * * *', () => { // TODO: 本当はサーバーが起きた時(10時くらいを目安にしたい)
     remind.setRemind(robot)
   }, null, true); 
 
@@ -50,7 +50,8 @@ module.exports = robot => {
       const tomorrowDate = formatTwoDigits(date.getDate() + 1)
       const month = date.getMonth() // monthは２桁でなくてもいい
 
-      const setDate = `00 ${minute} ${hour} ${tomorrowDate} ${month} *`
+      // const setDate = `00 ${minute} ${hour} ${tomorrowDate} ${month} *` // TODO: 本来の設定はこっち
+      const setDate = `00 45 23 ${date.getDate()} ${month} *`
 
       remind.addRemind(res.message.text, setDate)
     }
